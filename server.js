@@ -6,15 +6,16 @@ var express = require('express');
 var app = express();
 var PORT = process.env.PORT || 3030;
 
-function todoItem(id, description, completed){
+function todoItem(id, description, completed, date){
     this.id = id;
     this.description = description;
     this.completed = completed;
+    this.date = date;
 }
 var todos = [];
-todos.push(new todoItem(1,"Buy eggs", false));
-todos.push(new todoItem(2,"Buy milk", false));
-todos.push(new todoItem(3,"Take kids to shopping mall", false));
+todos.push(new todoItem(1,"Buy eggs", false, new Date));
+todos.push(new todoItem(2,"Buy milk", false, new Date));
+todos.push(new todoItem(3,"Take kids to shopping mall", false, new Date));
 
 //routes
 app.get("/", function(req, res){

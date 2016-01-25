@@ -31,16 +31,12 @@ app.get("/todos", function(req, res){
 });
 
 app.get("/todos/:id", function(req, res){
-    var _todoItem;
-    var todoId = req.params.id;
-    for(var i= 0; i <= todos.length -1 ; i++){  
-        if(todos[i].id == todoId){
-           _todoItem = res.json(todos[i]);
-        }
-    }
+    var todoId = parseInt(req.params.id);
+    var _todoItem = _.findWhere(todos, {id : todoId});
+    console.log(_todoItem);
     
     if(_todoItem){
-        res.json(todoItem);
+        res.json(_todoItem);
     }else{
         res.status(404).send("We could not find any todos based on your search criteria");
     }
@@ -50,8 +46,22 @@ app.post("/todos",function(req, res){
     var body = req.body;
     var myTodo = new todoItem(todos.length + 1, body.description, body.completed, new Date);
     todos.push(myTodo);
-    console.log("New todo logged " + JSON.stringify(myTodo));
+    console.log("NEW todo logged " + JSON.stringify(myTodo));
     res.json(myTodo);
+});
+
+app.delete("/todos/:id", function(req, res){
+   var todoId = parseInt(req.params.id);
+    var _todoItem = _.findWhere(todos, {id : todoId});
+    console.log(_todoItem);
+    
+    if(_todoItem){
+        todos = _.without(todos, _todoItem);
+        console.log("DELETE todo item:" + JSON.stringify(_todoItem)) ;
+        res.json(_todoItem);
+    }else{
+        res.status(404).send("We could not find any todos based on your search criteria");
+    } 
 });
 
 app.listen(PORT, function(){

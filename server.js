@@ -64,6 +64,33 @@ app.delete("/todos/:id", function(req, res){
     } 
 });
 
+//update todoitem
+app.put("/todos/:id", function(req, res){
+    var todoId = parseInt(req.params.id);
+    var _todoItem = _.findWhere(todos, {id : todoId});
+    var body = _.pick(req.body, 'description', 'completed');
+    var validAttrs = {};
+
+    if(!_todoItem){
+        return res.status(404).send();
+    }
+    
+
+    if(body.hasOwnProperty('completed') && _.isBoolean(body.completed)){
+        validAttrs.completed = body.completed; 
+    }else if(body.hasOwnProperty('completed')){
+        return res.status(400).send();
+    }
+
+    console.log(_todoItem);
+    
+    if(_todoItem){
+        _todoItem = _.extend(_todoItem, validAttrs);
+        console.log("UPDATE todo Item: " + JSON.stringify(_todoItem));
+        res.json(_todoItem);
+    }
+});
+
 app.listen(PORT, function(){
     console.log('Express running on PORT: ' + PORT);
 });

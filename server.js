@@ -3,9 +3,14 @@
  */
 //requires
 var express = require('express');
+var http = require('http');
 var bodyParser = require('body-parser');
 var _ = require("underscore");
 var app = express();
+var server = http.createServer(app);
+
+
+
 var PORT = process.env.PORT || 3030;
 var todos = [];
 var todoNextId = 1;

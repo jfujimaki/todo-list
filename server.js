@@ -46,16 +46,16 @@ app.get("/todos", function(req, res) {
 
 app.get("/todos/:id", function(req, res) {
     var todoId = parseInt(req.params.id);
-    var _todoItem = _.findWhere(todos, {
-        id: todoId
+    
+    db.todo.findById(todoId).then(function (todo){
+        if(!!todo){
+            res.json(todo.toJSON());
+        }else{
+            res.status(404).send();
+        }
+    }, function(e){
+        res.status(500).send();
     });
-    console.log(_todoItem);
-
-    if (_todoItem) {
-        res.json(_todoItem);
-    } else {
-        res.status(404).send("We could not find any todos based on your search criteria");
-    }
 });
 
 app.post("/todos", function(req, res) {
@@ -69,8 +69,8 @@ app.post("/todos", function(req, res) {
     db.todo.create(body).then(function(todo){
         res.json(todo.toJSON());
 
-    }).catch(function(e){
-        res.status(400).json(e);
+    },function(e){
+        res.send(500).send();
     });
 });
 

@@ -2,3 +2,4 @@ node_modules/
 .idea/
 iisnode/
 web.config
+db/*.sqlite

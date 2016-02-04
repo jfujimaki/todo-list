@@ -1,12 +1,23 @@
 var Sequelize = require('sequelize');
-var sequelize = new Sequelize(undefined, undefined, undefined, {
-	'dialect': 'sqlite',
-	'storage': __dirname + '/db/db-todo.sqlite'
-});
+var env = process.env.NODE_ENV || 'development';
+var sequelize = '';
+
+if (env === 'production') {
+	sequelize = new Sequelize(process.end.DATABASE_URL, {
+		'dialect': 'postgres'
+	});
+} else {
+	sequelize = new Sequelize(undefined, undefined, undefined, {
+		'dialect': 'sqlite',
+		'storage': __dirname + '/db/db-todo.sqlite'
+	});
+
+}
 
 var db = {};
-
 db.todo = sequelize.import(__dirname + '/models/todo.js');
+db.user = sequelize.import(__dirname + '/models/user.js');
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

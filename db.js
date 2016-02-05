@@ -7,6 +7,7 @@ if (env === 'production') {
 		'dialect': 'postgres'
 	});
 } else {
+	console.log(env);
 	sequelize = new Sequelize(undefined, undefined, undefined, {
 		'dialect': 'sqlite',
 		'storage': __dirname + '/db/db-todo.sqlite'

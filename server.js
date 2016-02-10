@@ -71,7 +71,7 @@ app.post("/todos", function(req, res) {
         res.json(todo.toJSON());
 
     },function(e){
-        res.send(500).send();
+        res.status(500).json(e);
     });
 });
 
